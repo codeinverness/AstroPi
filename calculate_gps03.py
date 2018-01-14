@@ -1,6 +1,9 @@
-#Version 2
-#Checking where the ISS is over Earth
+#Version 3
+#Print out to Sense Hat
 
+#Import SenseHat
+from sense_hat import SenseHat
+sense = SenseHat()
 import ephem
 import time
 
@@ -33,7 +36,7 @@ while True:
 	if(ISSlong[0] >= -100 and ISSlong[0] <= -7) and (ISSlat[0] >= -400 and ISSlat[0] <= -1):
 		
 		#If so print "YAY!" and location
-		print("Yay! I found the ISS!")
+		sense.show_message("Yay! I found the ISS!")
 		print ISS.sublong, ISS.sublat
 		
 		#Sleep and recalculate
