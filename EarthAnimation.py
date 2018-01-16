@@ -149,5 +149,5 @@ while True:
     time.sleep(1)
 	sense.set_pixels(earthAnimation_8)
     time.sleep(1)
-	sense.set_pixels(earthAnimation_9)
+	sense.set_pixels(earthAnimation_end)
     time.sleep(1)
