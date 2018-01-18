@@ -3,9 +3,12 @@
 
 # Import SenseHat
 from sense_hat import SenseHat
-sense = SenseHat()
 import ephem
 import time
+import math
+
+sense = SenseHat()
+sun = ephem.Sun(observer)
 
 # ISS Two Line telemetry
 name = "ISS"
@@ -15,6 +18,8 @@ line2 = "2 25544  51.6424 358.6134 0004424 120.6220  11.4433 15.54157095 85451"
 # Calculate the ISS location using ephem and pass that back to ISS variable
 ISS = ephem.readtle(name, line1, line2)
 ISS.compute()
+
+twilight = math.radians(-6)
 
 # Convert to Strings
 ISSlongString = str(ISS.sublong)
@@ -32,20 +37,33 @@ print ISSlat[0]
 
 # Main loop to run and keep checking position
 while True:
-	# Is the ISS between these positions?
-	if(ISSlong[0] >= -100 and ISSlong[0] <= -7) and (ISSlat[0] >= -400 and ISSlat[0] <= -1):
-		
-		#I f so print "YAY!" and location
-		sense.show_message("Yay! I found the ISS!")
-		print ISS.sublong, ISS.sublat
-		
-		# Sleep and recalculate
-		time.sleep(5)
-		ISS.compute()
-	
-	# If not then do this set of commands print "Where?", location, sleep and recalculate
-	else:
-		print ("Where on Earth is the ISS?")
-		print ISS.sublong, ISS.sublat
-		time.sleep(5)
-		ISS.compute()
+	iss.compute()
+
+	observer = ephem.Observer()
+	observer.lat = iss.sublat
+	observer.long = iss.sublong
+	observer.elevation = 0
+
+	sun.compute(observer)
+	sun_angle = math.degrees(sun.alt)
+	day_or_night = "Day" if sun_angle > twilight else "Night"
+	print("Lat:\t%s\tLong:\t%s\t%s" % (iss.sublat, iss.sublong, day_or_night))
+	time.sleep(1)
+
+    # Is the ISS between these positions?
+    if (ISSlong[0] >= -100 and ISSlong[0] <= -7) and (ISSlat[0] >= -400 and ISSlat[0] <= -1):
+
+        # If so print "YAY!" and location
+        sense.show_message("Yay! I found the ISS!")
+        print ISS.sublong, ISS.sublat
+
+        # Sleep and recalculate
+        time.sleep(5)
+        ISS.compute()
+
+    # If not then do this set of commands print "Where?", location, sleep and recalculate
+    else:
+        print ("Where on Earth is the ISS?")
+        print ISS.sublong, ISS.sublat
+        time.sleep(5)
+        ISS.compute()
