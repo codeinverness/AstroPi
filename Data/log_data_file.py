@@ -5,7 +5,8 @@ import datetime
 from sense_hat import SenseHat
 
 # Settings
-filename = ""
+timestamp = datetime.datetime.now()
+FILENAME = ""
 write_frequency = 50
 
 # Store data until written to file
@@ -13,7 +14,7 @@ def log_data():
 	output_string = ",".join(str(value) for value in sense_data)
 	batch_data.append(output_string)
 
-def file_setup("filename):
+def file_setup(filename):
 	header = ["temp_h","temp_p","Humidity","Pressure","Pitch","Roll","Yaw","Mag_X","Mag_Y","Mag_Z","Accel_X","Accel_Y","Accel_Z","Gyro_X","Gyro_Y","Gyro_Z","Timestamp"]
 	with open(filename,"w") as f:
 		f.write(",".join(str(value) for value in header)+ "/n")
@@ -50,11 +51,20 @@ def get_sense_data():
 	gyro_z = gyro["z"]
 	sense_data.extend([gyro_x,gyro_y,gyro_z])
 
-	sense_data.append(datetime.datetime.now())
+	sense_data.append(timestamp)
 	return sense_data
 
 # Program
 sense = SenseHat()
+
+batch_data = []
+
+if FILENAME == "":
+	filename = "SenseLog-" + str(timestamp)+".csv"
+else:
+	filename = FILENAME+"-"+str(timestamp)+".csv"
+
+file_setup(filename)
 
 while True:
 	sense_data = get_sense_data()
