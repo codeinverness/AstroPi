@@ -16,8 +16,18 @@ def most_frequent_color(image):
     for count, colour in pixels:
         if count > most_frequent_pixel[0]:
             most_frequent_pixel = (count, colour)
-    compare("Most Common", image, most_frequent_pixel[1])
     return most_frequent_pixel
+
+def average_colour(image):
+    colour_tuple = [None, None, None]
+    for channel in range(3): #Get data for one channel at a time
+        pixels = image.getdata(band=channel)
+        values = []
+        for pixel in pixels:
+            values.append(pixel)
+        colour_tuple[channel] = sum(values) / len(values)
+    return tuple(color_tuple)
+
 
 camera = PiCamera()
 camera.resolution = (2592, 1944) #set the resolution of the camera to as big as possible
@@ -35,5 +45,7 @@ croppedimage.save(dir) #DEBUG save the image to a file
 openimage = Image.open(dir) #DEBUG reopen the image
 
 print(most_frequent_color(openimage))
+print()
+print(average_color(openimage))
 
 exit()
