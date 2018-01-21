@@ -2,12 +2,14 @@
 #
 #Revision 1 - 2018-01-20 - Inital Commit
 #
-# https://zeevgilovitz.com/detecting-dominant-colours-in-python
+# https://github.com/ZeevG/python-dominant-image-colour
 
 from picamera import PiCamera
 from time import sleep
 from PIL import Image
 dir = '/home/pi/tmp/test.jpg'
+
+
 
 def most_frequent_color(image):
     w, h = image.size
@@ -18,15 +20,18 @@ def most_frequent_color(image):
             most_frequent_pixel = (count, colour)
     return most_frequent_pixel
 
-def average_colour(image):
-    colour_tuple = [None, None, None]
+
+
+def average_color(image):
+    color_tuple = [None, None, None]
     for channel in range(3): #Get data for one channel at a time
         pixels = image.getdata(band=channel)
         values = []
         for pixel in pixels:
             values.append(pixel)
-        colour_tuple[channel] = sum(values) / len(values)
+        color_tuple[channel] = int(round((sum(values) / len(values)),0), base=10)
     return tuple(color_tuple)
+
 
 
 camera = PiCamera()
