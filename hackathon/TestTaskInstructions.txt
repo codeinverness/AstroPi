@@ -5,45 +5,53 @@ This task is to make sure everything is working
 (and that you can follow our instructions!)
 
 Step 1
-Create a folder in terminal to store your work, replace 'myTeamDir' with your team name
-# mkdir myTeamDir
-
-Step 2
-Create a New file in that directory (mac)
-Remember to end your filename with .py!
-# vim /myTeamDir/newTaskFile.py
-
-Step 3
-Copy the code from the GitHub TestTask to a new file
-Go to https://github.com/codeinverness/AstroPi/tree/master/hackathon
-Select 'TestTask.py'
-Click 'Raw' in top right corner
-Copy text from file
-Paste into a new local file
-
-Step 4
-Edit TestTask.py on your local machine so it says 'Hello, YourTeam!'
-
-Step 5
 Connecting to the Raspberry Pi
 
 To test the code you write you will need to run it on the Raspberry Pi,
 do do this you need to use a terminal command.
 
-This copies from your local machine to the Raspberry Pi
-# scp /myTeamDir/newTaskFile.py pi@<ip>:myTeamName/
-
-Connect to the Raspberry Pi
 # ssh pi@<IP>
 
-Run code
-# python3 myTeamDir/newTaskFile.py
+Step 2
+Create a folder in to store your work, replace 'myTeamDir' with your team name
+# mkdir myTeamDir
 
-Disconnect from pi
-# ~.
+Move into that folder
+# cd myTeamDir
 
-Did the code complete the task?
-- Yes?  Well Done! put your team name on the task paper and place it in the Amber section of the board.  'Drop the file into the dropbox!'
-- No?  That's good testing!  Go back to your local file and make some changes to try again, keep on keeping on :)
+Step 3
+Create a New file in that directory
+Remember to end your filename with .py!
+# nano newTaskFile.py
 
-remember you can go back and check the documentation and task hints any time
+Step 4
+Copy the code from the GitHub TestTask to a new file
+
+- Open a browser on your computer
+- Go to https://github.com/codeinverness/AstroPi/tree/master/hackathon
+- Select 'TestTask.py'
+
+Click 'Raw' in top right corner
+Copy the text in the file
+
+Step 5
+Go back to the terminal
+Paste the text from the TestTask.py file on the browser into the new file that you created on the rasperry pi
+
+Step 6
+Edit TestTask.py on your local machine so it says 'Hello, YourTeam!'
+
+Step 7
+Run your code
+# python3 newTaskFile.py
+
+Step 8
+
+Did the Sense Hat show your team name?
+- Yes?  Well Done! Save your file by pressing CTRL + X, the 'Y' key and then enter.
+  Go now a do the task 'Create a function'
+  
+- No, the code didn't work?  That's good testing!  Go back to your local file and make some changes to try again, 
+  after a couple of attempts you can ask a mentor if you are struggling, keep on keeping on :)
+
+# remember you can go back and check the documentation and task hints any time
