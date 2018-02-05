@@ -18,8 +18,8 @@
 #   Build String and append to file    **DONE**
 #   carry out annimation
 
-import datetime
-from picamera import PiCamera
+import datetime as dt
+import picamera
 from time import sleep
 from PIL import Image
 from sense_hat import SenseHat
@@ -27,10 +27,12 @@ import ephem
 
 sense = SenseHat()
 
+team_name = "CodeInverness"
+time_format = "%d/%m/%Y %H:%M:%S"
 imagefile = 10000
 imagename = ''
 imagename2 = ''
-timestamp = datetime.datetime.now()
+timestamp = dt.datetime.now()
 datafile = ''
 whatispicture = ''
 logfile = "log.csv"
@@ -45,6 +47,7 @@ W = (255,255,255)
 O = (0,0,0)
 R = (255, 0, 0)
 
+cam = picamera.PiCamera()
 
 landref = "land.txt"
 landtupples = []
@@ -114,7 +117,6 @@ O, G, B, B, B, B, B, O,
 O, O, W, W, W, W, O, O,
 ]
 
-    
 earth_animation6 = [
 O, O, W, W, W, W, O, O,
 O, B, G, G, G, B, B, O,
@@ -150,8 +152,6 @@ O, O, W, W, W, W, O, O,
 
 animation = [earth_animation1, earth_animation2, earth_animation3, earth_animation4, earth_animation5, earth_animation6, earth_animation7, earth_animation8]
 
-
-
 def most_frequent_color(image):
     w, h = image.size
     pixels = image.getcolors(w * h)
@@ -172,110 +172,114 @@ def most_frequent_color(image):
 #    return tuple(color_tuple)
 
 def startcamera():
-    camera = PiCamera()
-    camera.resolution = (2592, 1944) #set the resolution of the camera to as big as possible
-    camera.framerate = 15 #set the cameras framerate
-    camera.start_preview() #start the viewer
+    cam.resolution = (2592, 1944) #set the resolution of the camera to as big as possible
+    cam.framerate = 15 #set the cameras framerate
+    cam.start_preview() #start the viewer
     sleep(5) #wait for the image to stabalise
 
 def takepicture():
-	getgps()
-	info = []
-	info.append(team_name)
-	info.append(dt.datetime.now().strftime(time_format))
-	info.append("Lat: " + GPS_lat)
-	info.append("Long: " + GPS_long)
-	cam.annotate_text = "\n".join(info)
+    global imagefile
+    global imagename
+    global imagename2
+    getgps()
+    info = []
+    info.append(team_name)
+    info.append(dt.datetime.now().strftime(time_format))
+    info.append("Lat: " + GPS_lat)
+    info.append("Long: " + GPS_long)
+    cam.annotate_text = "\n".join(info)
 	
-	camera.capture(imagename) #take an image and save to working directory
-	openimage = Image.open(imagename) #open the image in pillow
-	cropbox = (1246,922,1346,1022) #define the center 100x100 pixels
-	croppedimage = openimage.crop(cropbox) #take only the center 100x100 pixels
-	croppedimage.save(imagename2) #save the center 100x100 as a new file
+    cam.capture(imagename) #take an image and save to working directory
+    openimage = Image.open(imagename) #open the image in pillow
+    cropbox = (1246,922,1346,1022) #define the center 100x100 pixels
+    croppedimage = openimage.crop(cropbox) #take only the center 100x100 pixels
+    croppedimage.save(imagename2) #save the center 100x100 as a new file
 	
 def nextimagename():
-	global imagefile += 1
-	imagename = str(imagefile)+"_HR.jpg"
-	imagename2  = str(imagefile)+"_100x100.jpg"
+    global imagefile
+    imagefile = imagefile+1
+    imagename = str(imagefile)+"_HR.jpg"
+    imagename2  = str(imagefile)+"_100x100.jpg"
 
 def getlogdata():
-	sense_data=[]
-	sense_data.append(sense.get_temperature())
-	sense_data.append(sense.get_humidity())
-	sense_data.append(sense.get_pressure())
+    sense_data=[]
+    sense_data.append(sense.get_temperature())
+    sense_data.append(sense.get_humidity())
+    sense_data.append(sense.get_pressure())
 
-	o = sense.get_orientation()
-	yaw = o["yaw"]
-	pitch = o["pitch"]
-	roll = o["roll"]
-	sense_data.extend([pitch,roll,yaw])
+    o = sense.get_orientation()
+    yaw = o["yaw"]
+    pitch = o["pitch"]
+    roll = o["roll"]
+    sense_data.extend([pitch,roll,yaw])
 
-	mag = sense.get_compass_raw()
-	mag_x = mag["x"]
-	mag_y = mag["y"]
-	mag_z = mag["z"]
-	sense_data.extend([mag_x,mag_y,mag_z])
+    mag = sense.get_compass_raw()
+    mag_x = mag["x"]
+    mag_y = mag["y"]
+    mag_z = mag["z"]
+    sense_data.extend([mag_x,mag_y,mag_z])
 
-	acc = sense.get_accelerometer_raw()
-	x = acc["x"]
-	y = acc["y"]
-	z = acc["z"]
-	sense_data.extend([x,y,z])
+    acc = sense.get_accelerometer_raw()
+    x = acc["x"]
+    y = acc["y"]
+    z = acc["z"]
+    sense_data.extend([x,y,z])
 
-	gyro = sense.get_gyroscope_raw()
-	gyro_x = gyro["x"]
-	gyro_y = gyro["y"]
-	gyro_z = gyro["z"]
-	sense_data.extend([gyro_x,gyro_y,gyro_z])
+    gyro = sense.get_gyroscope_raw()
+    gyro_x = gyro["x"]
+    gyro_y = gyro["y"]
+    gyro_z = gyro["z"]
+    sense_data.extend([gyro_x,gyro_y,gyro_z])
 
-	sense_data.append(datetime.datetime.now())
-	return sense_data
+    sense_data.append(datetime.datetime.now())
+    return sense_data
 	
 def savelogdata():
-	sense_data = str(getlogdata())
-	sense_data = sense_data[1:-1]
-	sense_data = str(imagefile)+", "+sense_data+", "+GPS_long+", "+GPS_long+", "+whatispicture
-	print(sense_data)
-	fh = open("logfile", "w") 
-	fh.write(sense_data)
-	fh.close() 
-	
+    sense_data = str(getlogdata())
+    sense_data = sense_data[1:-1]
+    sense_data = str(imagefile)+", "+sense_data+", "+GPS_long+", "+GPS_long+", "+whatispicture
+    print(sense_data)
+    fh = open("logfile", "w") 
+    fh.write(sense_data)
+    fh.close() 
+    
 def earthsea():
-	openimage = Image.open(imagename2) #open the cropped file
-	tmptupple = most_frequent_color(openimage)
-	if tmptupple in landtupples:
-		whatispicture = 'Land'
-	elif tmptupple in seatupples:
-		whatispicture = 'Sea'
-	elif tmptupple in cloudtupples:
-		whatispicture = 'Cloud'
-	elif tmptupple in nighttupples:
-		whatispicture = 'Night'
-	else:
-		whatispicture = 'UNKNOWN'
+    global imagename2
+    openimage = Image.open(imagename2) #open the cropped file
+    tmptupple = most_frequent_color(openimage)
+    if tmptupple in landtupples:
+            whatispicture = 'Land'
+    elif tmptupple in seatupples:
+            whatispicture = 'Sea'
+    elif tmptupple in cloudtupples:
+            whatispicture = 'Cloud'
+    elif tmptupple in nighttupples:
+            whatispicture = 'Night'
+    else:
+            whatispicture = 'UNKNOWN'
 
 def idleanimation():
-	for count in range(6):
-		sense.set_pixels(animation[count])
-		sleep(5)
+    for count in range(6):
+            sense.set_pixels(animation[count])
+            sleep(5)
 
 def readdata():
-	landtupples = open(landref,'r').read().split('\n')
-	seatupples = open(searef,'r').read().split('\n')
-	cloudtupples = open(cloudref,'r').read().split('\n')
-	nighttupples = open(nightref,'r').read().split('\n')
+    landtupples = open(landref,'r').read().split('\n')
+    seatupples = open(searef,'r').read().split('\n')
+    cloudtupples = open(cloudref,'r').read().split('\n')
+    nighttupples = open(nightref,'r').read().split('\n')
 
 def writeheader():
-	Header = "Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, gps_x, gps_y, whatispicture"
-	fh = open("logfile", "w") 
-	fh.write(Header)
-	fh.close() 
+    Header = "Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, gps_x, gps_y, whatispicture"
+    fh = open("logfile", "w") 
+    fh.write(Header)
+    fh.close() 
 
 def getgps():
-	ISS = ephem.readtle(name, line1, line2)
-	ISS.compute()
-	GPS_lat = ISS.sublat
-	GPS_long = ISS.sublong
+    ISS = ephem.readtle(name, line1, line2)
+    ISS.compute()
+    GPS_lat = ISS.sublat
+    GPS_long = ISS.sublong
 	
 startcamera()
 writeheader()
