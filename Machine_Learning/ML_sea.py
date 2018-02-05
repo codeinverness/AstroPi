@@ -21,16 +21,15 @@ def most_frequent_color(image):
     return most_frequent_pixel
 
 imagelist = glob.glob('*.jpg')
+
+fh = open("sea.txt", "w") 
+fh.close
+
 for x in imagelist:
-	openimage = Image.open(x) #open the image in pillow
-	w, h = openimage.size
-	cropbox = (((w/2)-50),((h/2)-50),((w/2)+50),((h/2)+50)) #determine position of crop based on image res
-	croppedimage = openimage.crop(cropbox) #take only the center 100x100 pixels
-	tmpdir = './new/'+str(x) #DEBUG set file path to a new name
-	croppedimage.save(tmpdir) #DEBUG save the image to a file
-	print(x)
-	print(most_frequent_color(croppedimage))
-	print(average_color(croppedimage))
-	print()
+    fh = open("sea.txt", "a")
+    openimage = Image.open(x) #open the image in pillow
+    fh.write(str(most_frequent_color(openimage)) + '\n')
+    fh.close() 
+
 
 exit()
