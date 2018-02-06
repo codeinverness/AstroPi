@@ -233,7 +233,7 @@ def getlogdata():
     gyro_z = gyro["z"]
     sense_data.extend([gyro_x,gyro_y,gyro_z])
 
-    sense_data.append("\""+dt.datetime.now()+"\"")
+    sense_data.append("\""+str(dt.datetime.now())+"\"")
     return sense_data
 	
 def savelogdata():
