@@ -30,8 +30,8 @@ sense = SenseHat()
 team_name = "CodeInverness"
 time_format = "%d/%m/%Y %H:%M:%S"
 imagefile = 10000
-imagename = ''
-imagename2 = ''
+imagename = 'first_HR.jpg'
+imagename2 = 'first_100x100.jpg'
 timestamp = dt.datetime.now()
 datafile = ''
 whatispicture = ''
@@ -188,7 +188,7 @@ def takepicture():
     info.append("Lat: " + GPS_lat)
     info.append("Long: " + GPS_long)
     cam.annotate_text = "\n".join(info)
-	
+
     cam.capture(imagename) #take an image and save to working directory
     openimage = Image.open(imagename) #open the image in pillow
     cropbox = (1246,922,1346,1022) #define the center 100x100 pixels
@@ -231,7 +231,7 @@ def getlogdata():
     gyro_z = gyro["z"]
     sense_data.extend([gyro_x,gyro_y,gyro_z])
 
-    sense_data.append(datetime.datetime.now())
+    sense_data.append(dt.datetime.now())
     return sense_data
 	
 def savelogdata():
