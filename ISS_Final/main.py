@@ -1,4 +1,4 @@
-#This code takes images from the ISS and determines if the ISS is over land or sea
+# This code takes images from the ISS and determines if the ISS is over land or sea
 #
 # Revision 1 - 2018-01-21 - Inital Commit based on Dev work done 2018-01-20
 #
@@ -43,8 +43,8 @@ GPS_long = ''
 
 G = (0, 255, 0)
 B = (0, 0, 255)
-W = (255,255,255)
-O = (0,0,0)
+W = (255, 255, 255)
+O = (0, 0, 0)
 R = (255, 0, 0)
 
 cam = picamera.PiCamera()
@@ -63,94 +63,96 @@ line1 = "1 25544U 98067A   17320.58149788  .00003295  00000-0  56951-4 0  9992"
 line2 = "2 25544  51.6424 358.6134 0004424 120.6220  11.4433 15.54157095 85451"
 
 earth_animation1 = [
-O, O, W, W, W, B, O, O,
-O, G, B, B, B, G, G, O,
-G, G, B, B, G, B, G, G,
-G, G, B, B, G, G, G, G,
-G, B, B, G, G, B, G, B,
-G, G, B, G, G, B, B, G,
-O, G, B, W, B, B, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, B, O, O,
+    O, G, B, B, B, G, G, O,
+    G, G, B, B, G, B, G, G,
+    G, G, B, B, G, G, G, G,
+    G, B, B, G, G, B, G, B,
+    G, G, B, G, G, B, B, G,
+    O, G, B, W, B, B, B, O,
+    O, O, W, W, W, W, O, O,
 ]
 
 earth_animation2 = [
-O, O, W, W, W, W, O, O,
-O, G, G, G, B, B, B, O,
-G, G, G, G, B, B, G, B,
-B, G, G, G, B, B, G, G,
-B, B, G, B, B, G, G, B,
-B, B, G, G, B, G, G, B,
-O, B, B, G, B, W, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, W, O, O,
+    O, G, G, G, B, B, B, O,
+    G, G, G, G, B, B, G, B,
+    B, G, G, G, B, B, G, G,
+    B, B, G, B, B, G, G, B,
+    B, B, G, G, B, G, G, B,
+    O, B, B, G, B, W, B, O,
+    O, O, W, W, W, W, O, O,
 ]
-    
+
 earth_animation3 = [
-O, O, W, B, W, W, O, O,
-O, B, B, G, G, G, B, O,
-B, B, G, G, G, G, B, B,
-B, B, B, G, G, G, B, B,
-B, B, B, B, G, B, B, G,
-B, G, B, B, G, G, B, G,
-O, B, B, B, B, G, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, B, W, W, O, O,
+    O, B, B, G, G, G, B, O,
+    B, B, G, G, G, G, B, B,
+    B, B, B, G, G, G, B, B,
+    B, B, B, B, G, B, B, G,
+    B, G, B, B, G, G, B, G,
+    O, B, B, B, B, G, B, O,
+    O, O, W, W, W, W, O, O,
 ]
-    
+
 earth_animation4 = [
-O, O, W, W, W, B, O, O,
-O, G, B, B, B, G, G, O,
-B, B, B, B, G, G, G, G,
-B, G, B, B, B, G, G, G,
-B, B, B, B, B, B, G, B,
-G, G, B, G, B, B, G, G,
-O, G, B, B, B, B, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, B, O, O,
+    O, G, B, B, B, G, G, O,
+    B, B, B, B, G, G, G, G,
+    B, G, B, B, B, G, G, G,
+    B, B, B, B, B, B, G, B,
+    G, G, B, G, B, B, G, G,
+    O, G, B, B, B, B, B, O,
+    O, O, W, W, W, W, O, O,
 ]
-    
+
 earth_animation5 = [
-O, O, W, B, W, W, O, O,
-O, G, G, B, B, B, B, O,
-G, G, B, G, B, B, G, G,
-G, G, B, G, B, B, B, G,
-B, B, B, B, B, B, B, B,
-G, G, B, G, B, B, G, G,
-O, G, B, B, B, B, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, B, W, W, O, O,
+    O, G, G, B, B, B, B, O,
+    G, G, B, G, B, B, G, G,
+    G, G, B, G, B, B, B, G,
+    B, B, B, B, B, B, B, B,
+    G, G, B, G, B, B, G, G,
+    O, G, B, B, B, B, B, O,
+    O, O, W, W, W, W, O, O,
 ]
 
 earth_animation6 = [
-O, O, W, W, W, W, O, O,
-O, B, G, G, G, B, B, O,
-G, G, G, G, B, G, B, B,
-B, G, G, G, B, G, B, B,
-G, B, B, B, B, B, B, B,
-B, B, G, G, B, G, B, B,
-O, W, B, G, B, B, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, W, O, O,
+    O, B, G, G, G, B, B, O,
+    G, G, G, G, B, G, B, B,
+    B, G, G, G, B, G, B, B,
+    G, B, B, B, B, B, B, B,
+    B, B, G, G, B, G, B, B,
+    O, W, B, G, B, B, B, O,
+    O, O, W, W, W, W, O, O,
 ]
 
 earth_animation7 = [
-O, O, W, W, W, W, O, O,
-O, G, G, B, G, B, G, O,
-G, B, G, G, B, G, B, G,
-G, G, G, G, B, B, B, G,
-G, B, G, B, B, B, G, B,
-G, B, B, G, B, B, B, B,
-O, B, B, B, G, B, B, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, W, O, O,
+    O, G, G, B, G, B, G, O,
+    G, B, G, G, B, G, B, G,
+    G, G, G, G, B, B, B, G,
+    G, B, G, B, B, B, G, B,
+    G, B, B, G, B, B, B, B,
+    O, B, B, B, G, B, B, O,
+    O, O, W, W, W, W, O, O,
 ]
 
 earth_animation8 = [
-O, O, W, W, W, W, O, O,
-O, B, B, G, G, B, G, O,
-B, B, G, B, G, G, B, G,
-B, B, G, G, G, G, B, B,
-B, G, G, B, G, B, B, B,
-B, G, G, B, B, G, B, B,
-O, W, B, B, B, B, G, O,
-O, O, W, W, W, W, O, O,
+    O, O, W, W, W, W, O, O,
+    O, B, B, G, G, B, G, O,
+    B, B, G, B, G, G, B, G,
+    B, B, G, G, G, G, B, B,
+    B, G, G, B, G, B, B, B,
+    B, G, G, B, B, G, B, B,
+    O, W, B, B, B, B, G, O,
+    O, O, W, W, W, W, O, O,
 ]
 
-animation = [earth_animation1, earth_animation2, earth_animation3, earth_animation4, earth_animation5, earth_animation6, earth_animation7, earth_animation8]
+animation = [earth_animation1, earth_animation2, earth_animation3, earth_animation4, earth_animation5, earth_animation6,
+             earth_animation7, earth_animation8]
+
 
 def most_frequent_color(image):
     w, h = image.size
@@ -161,7 +163,8 @@ def most_frequent_color(image):
             most_frequent_pixel = (count, colour)
     return most_frequent_pixel
 
-#def average_color(image):
+
+# def average_color(image):
 #    color_tuple = [None, None, None]
 #    for channel in range(3): #Get data for one channel at a time
 #        pixels = image.getdata(band=channel)
@@ -172,10 +175,11 @@ def most_frequent_color(image):
 #    return tuple(color_tuple)
 
 def startcamera():
-    cam.resolution = (2592, 1944) #set the resolution of the camera to as big as possible
-    cam.framerate = 15 #set the cameras framerate
-    cam.start_preview() #start the viewer
-    sleep(5) #wait for the image to stabalise
+    cam.resolution = (2592, 1944)  # set the resolution of the camera to as big as possible
+    cam.framerate = 15  # set the cameras framerate
+    cam.start_preview()  # start the viewer
+    sleep(5)  # wait for the image to stabalise
+
 
 def takepicture():
     global imagefile
@@ -189,22 +193,24 @@ def takepicture():
     info.append("Long: " + GPS_long)
     cam.annotate_text = "\n".join(info)
 
-    cam.capture(imagename) #take an image and save to working directory
-    openimage = Image.open(imagename) #open the image in pillow
-    cropbox = (1246,922,1346,1022) #define the center 100x100 pixels
-    croppedimage = openimage.crop(cropbox) #take only the center 100x100 pixels
-    croppedimage.save(imagename2) #save the center 100x100 as a new file
-	
+    cam.capture(imagename)  # take an image and save to working directory
+    openimage = Image.open(imagename)  # open the image in pillow
+    cropbox = (1246, 922, 1346, 1022)  # define the center 100x100 pixels
+    croppedimage = openimage.crop(cropbox)  # take only the center 100x100 pixels
+    croppedimage.save(imagename2)  # save the center 100x100 as a new file
+
+
 def nextimagename():
     global imagefile
     global imagename
     global imagename2
-    imagefile = imagefile+1
-    imagename = str(imagefile)+"_HR.jpg"
-    imagename2  = str(imagefile)+"_100x100.jpg"
+    imagefile = imagefile + 1
+    imagename = str(imagefile) + "_HR.jpg"
+    imagename2 = str(imagefile) + "_100x100.jpg"
+
 
 def getlogdata():
-    sense_data=[]
+    sense_data = []
     sense_data.append(sense.get_temperature())
     sense_data.append(sense.get_humidity())
     sense_data.append(sense.get_pressure())
@@ -213,70 +219,76 @@ def getlogdata():
     yaw = o["yaw"]
     pitch = o["pitch"]
     roll = o["roll"]
-    sense_data.extend([pitch,roll,yaw])
+    sense_data.extend([pitch, roll, yaw])
 
     mag = sense.get_compass_raw()
     mag_x = mag["x"]
     mag_y = mag["y"]
     mag_z = mag["z"]
-    sense_data.extend([mag_x,mag_y,mag_z])
+    sense_data.extend([mag_x, mag_y, mag_z])
 
     acc = sense.get_accelerometer_raw()
     x = acc["x"]
     y = acc["y"]
     z = acc["z"]
-    sense_data.extend([x,y,z])
+    sense_data.extend([x, y, z])
 
     gyro = sense.get_gyroscope_raw()
     gyro_x = gyro["x"]
     gyro_y = gyro["y"]
     gyro_z = gyro["z"]
-    sense_data.extend([gyro_x,gyro_y,gyro_z])
+    sense_data.extend([gyro_x, gyro_y, gyro_z])
 
     sense_data.append(str(dt.datetime.now()))
     return sense_data
-	
+
+
 def savelogdata():
     sense_data = str(getlogdata())
     sense_data = sense_data[1:-1]
-    sense_data = str(imagefile)+", "+sense_data+", "+GPS_lat+", "+GPS_long+", "+whatispicture
+    sense_data = str(imagefile) + ", " + sense_data + ", " + GPS_lat + ", " + GPS_long + ", " + whatispicture
     print(sense_data)
-    fh = open("logfile", "a") 
+    fh = open("logfile", "a")
     fh.write(sense_data + '\n')
-    fh.close() 
-    
+    fh.close()
+
+
 def earthsea():
     global imagename2
     global whatispicture
-    openimage = Image.open(imagename2) #open the cropped file
+    openimage = Image.open(imagename2)  # open the cropped file
     tmptupple = most_frequent_color(openimage)
     if tmptupple in landtupples:
-            whatispicture = 'Land'
+        whatispicture = 'Land'
     elif tmptupple in seatupples:
-            whatispicture = 'Sea'
+        whatispicture = 'Sea'
     elif tmptupple in cloudtupples:
-            whatispicture = 'Cloud'
+        whatispicture = 'Cloud'
     elif tmptupple in nighttupples:
-            whatispicture = 'Night'
+        whatispicture = 'Night'
     else:
-            whatispicture = 'UNKNOWN'
+        whatispicture = 'UNKNOWN'
+
 
 def idleanimation():
     for count in range(6):
-            sense.set_pixels(animation[count])
-            sleep(5)
+        sense.set_pixels(animation[count])
+        sleep(5)
+
 
 def readdata():
-    landtupples = open(landref,'r').read().split('\n')
-    seatupples = open(searef,'r').read().split('\n')
-    cloudtupples = open(cloudref,'r').read().split('\n')
-    nighttupples = open(nightref,'r').read().split('\n')
+    landtupples = open(landref, 'r').read().split('\n')
+    seatupples = open(searef, 'r').read().split('\n')
+    cloudtupples = open(cloudref, 'r').read().split('\n')
+    nighttupples = open(nightref, 'r').read().split('\n')
+
 
 def writeheader():
-    Header = "Filename, Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, datetime, gps_x, gps_y, whatispicture \n"
-    fh = open("logfile", "w") 
+    Header = "Filename, Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, datetime, gps_lattitude, gps_longitude, whatispicture \n"
+    fh = open("logfile", "w")
     fh.write(Header)
-    fh.close() 
+    fh.close()
+
 
 def getgps():
     global GPS_lat
@@ -285,23 +297,23 @@ def getgps():
     ISS.compute()
     GPS_lat = str(ISS.sublat)
     GPS_long = str(ISS.sublong)
-	
+
+
 startcamera()
 writeheader()
 readdata()
-sense.show_message("Ready!", text_colour = G)
+sense.show_message("Ready!", text_colour=G)
 while True:
-	sense.set_pixels(animation[7])
-	nextimagename()
-	takepicture()
-	earthsea()
-	getlogdata()
-	savelogdata()
-	idleanimation()
-	
-	
-#print(most_frequent_color(openimage))
-#print(average_color(openimage))
-#print()
+    sense.set_pixels(animation[7])
+    nextimagename()
+    takepicture()
+    earthsea()
+    getlogdata()
+    savelogdata()
+    idleanimation()
+
+# print(most_frequent_color(openimage))
+# print(average_color(openimage))
+# print()
 
 exit()
