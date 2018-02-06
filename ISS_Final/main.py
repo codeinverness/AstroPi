@@ -197,6 +197,8 @@ def takepicture():
 	
 def nextimagename():
     global imagefile
+	global imagename
+	global imagename2
     imagefile = imagefile+1
     imagename = str(imagefile)+"_HR.jpg"
     imagename2  = str(imagefile)+"_100x100.jpg"
@@ -239,8 +241,8 @@ def savelogdata():
     sense_data = sense_data[1:-1]
     sense_data = str(imagefile)+", "+sense_data+", "+GPS_long+", "+GPS_long+", "+whatispicture
     print(sense_data)
-    fh = open("logfile", "w") 
-    fh.write(sense_data)
+    fh = open("logfile", "a") 
+    fh.write(sense_data + '\n')
     fh.close() 
     
 def earthsea():
@@ -270,12 +272,14 @@ def readdata():
     nighttupples = open(nightref,'r').read().split('\n')
 
 def writeheader():
-    Header = "Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, gps_x, gps_y, whatispicture"
+    Header = "Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, gps_x, gps_y, whatispicture \n"
     fh = open("logfile", "w") 
     fh.write(Header)
     fh.close() 
 
 def getgps():
+	global GPS_lat
+	global GPS_long
     ISS = ephem.readtle(name, line1, line2)
     ISS.compute()
     GPS_lat = ISS.sublat
