@@ -239,7 +239,7 @@ def getlogdata():
 def savelogdata():
     sense_data = str(getlogdata())
     sense_data = sense_data[1:-1]
-    sense_data = str(imagefile)+", "+sense_data+", "+GPS_long+", "+GPS_long+", "+whatispicture
+    sense_data = str(imagefile)+", "+sense_data+", "+GPS_lat+", "+GPS_long+", "+whatispicture
     print(sense_data)
     fh = open("logfile", "a") 
     fh.write(sense_data + '\n')
@@ -282,8 +282,8 @@ def getgps():
 	global GPS_long
     ISS = ephem.readtle(name, line1, line2)
     ISS.compute()
-    GPS_lat = ISS.sublat
-    GPS_long = ISS.sublong
+    GPS_lat = str(ISS.sublat)
+    GPS_long = str(ISS.sublong)
 	
 startcamera()
 writeheader()
