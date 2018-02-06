@@ -247,6 +247,7 @@ def savelogdata():
     
 def earthsea():
     global imagename2
+	global whatispicture
     openimage = Image.open(imagename2) #open the cropped file
     tmptupple = most_frequent_color(openimage)
     if tmptupple in landtupples:
