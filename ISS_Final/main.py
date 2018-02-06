@@ -233,7 +233,7 @@ def getlogdata():
     gyro_z = gyro["z"]
     sense_data.extend([gyro_x,gyro_y,gyro_z])
 
-    sense_data.append("\""+str(dt.datetime.now())+"\"")
+    sense_data.append(str(dt.datetime.now()))
     return sense_data
 	
 def savelogdata():
@@ -273,7 +273,7 @@ def readdata():
     nighttupples = open(nightref,'r').read().split('\n')
 
 def writeheader():
-    Header = "Filename, Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, gps_x, gps_y, whatispicture \n"
+    Header = "Filename, Temp, Humidity, Pressure, yaw, pitch, roll, mag_x, mag_y, mag_z, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z, datetime, gps_x, gps_y, whatispicture \n"
     fh = open("logfile", "w") 
     fh.write(Header)
     fh.close() 
