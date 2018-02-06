@@ -197,8 +197,8 @@ def takepicture():
 	
 def nextimagename():
     global imagefile
-	global imagename
-	global imagename2
+    global imagename
+    global imagename2
     imagefile = imagefile+1
     imagename = str(imagefile)+"_HR.jpg"
     imagename2  = str(imagefile)+"_100x100.jpg"
@@ -247,7 +247,7 @@ def savelogdata():
     
 def earthsea():
     global imagename2
-	global whatispicture
+    global whatispicture
     openimage = Image.open(imagename2) #open the cropped file
     tmptupple = most_frequent_color(openimage)
     if tmptupple in landtupples:
@@ -279,8 +279,8 @@ def writeheader():
     fh.close() 
 
 def getgps():
-	global GPS_lat
-	global GPS_long
+    global GPS_lat
+    global GPS_long
     ISS = ephem.readtle(name, line1, line2)
     ISS.compute()
     GPS_lat = str(ISS.sublat)
